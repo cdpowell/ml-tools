@@ -14,6 +14,22 @@ The ``ml-tools`` package is a Python library containing common tools for machine
 contains modules for implementing Decision Trees and Regression.
 
 
+Decision Tree
+~~~~~~~~~~~~~
+
+The ``ml-tools`` package provides the `mltools.tree.Node()` object used for constructing decision trees. The object
+functions off a modified ID3 algorithm to recursively build the tree based off information gain calculated with
+Shannon's entropy.
+
+.. image:: https://raw.githubusercontent.com/cdpowell/ml-tools/master/docs/decision_tree/_static/Figure_1.png
+   :width: 50%
+   :align: center
+
+
+Regression
+~~~~~~~~~~
+
+
 Installation
 ~~~~~~~~~~~~
 
@@ -34,3 +50,6 @@ Install on Windows
 .. code:: bash
 
    py -3 -m pip install -e ./mw-tools
+
+
+.. _pip: https://pip.pypa.io
