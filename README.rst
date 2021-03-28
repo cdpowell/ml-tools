@@ -22,18 +22,26 @@ functions off a modified ID3 algorithm to recursively build the tree based off i
 Shannon's entropy.
 
 .. image:: https://raw.githubusercontent.com/cdpowell/ml-tools/master/docs/decision_tree/_static/Figure_1.png
-   :width: 50%
+   :width: 25%
    :align: center
 
 
 Regression
 ~~~~~~~~~~
 
+The ``ml-tools`` package provides the `mltools.regression.Regression()` object used for constructing regression modesl.
+The object functions performs iterative linear regression using mean squared error as a cost function.
+
+.. image:: https://raw.githubusercontent.com/cdpowell/ml-tools/master/docs/regression/_static/synth-1-2nd.png
+   :width: 25%
+   :align: center
+
 
 Installation
 ~~~~~~~~~~~~
 
-The ``mwtab`` package should run under Python 3.4+. Use pip_ to install the package locally. Starting with Python 3.4, pip_ is included by default.
+The ``mwtab`` package should run under Python 3.4+. Use pip_ to install the package locally. Starting with Python 3.4,
+pip_ is included by default.
 
 
 Install on Linux, Mac OS X
