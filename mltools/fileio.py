@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-
 """
 mltools.fileio
 ~~~~~~~~~~~~~~~
@@ -9,6 +8,7 @@ This module provides functions for parsing data files.
 """
 
 from csv import reader
+from numpy import array, genfromtxt
 
 
 def parse_csv(data_path, headers=False):
@@ -33,3 +33,28 @@ def parse_csv(data_path, headers=False):
                 data_list.append(data_entry)
 
     return data_list, feature_list
+
+
+def parse_csv_2(file_path, label_index=None, headers=False):
+    """Improved method for parsing data from CSV files.
+
+    :param str file_path: Path to CSV data file.
+    :param label_index: Index of class labels in data array.
+    :type label_index: :py:obj:`None` or :py:class:`int`
+    :param bool headers: Denotes the presences of value labels (headers) in data array.
+    :return Two arrays; x values and y values.
+    :rtype: :py:class:`tuple`
+    """
+    raw_data = genfromtxt(file_path, delimiter=",", skip_header=1 if headers else 0)
+
+    if label_index:
+        if label_index == 0:
+            return raw_data[:, 1:], array([raw_data[:, 0]])
+        elif label_index == -1:
+            return raw_data[:, :len(raw_data[0]) - 1], array([raw_data[:, -1]])
+        else:
+            # lazy handling of y values not being at the ends of the array
+            raise ValueError("")
+
+    else:
+        return raw_data, None

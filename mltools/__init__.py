@@ -15,8 +15,9 @@ This module provides functions and classes for implementing decision tree models
 
 """
 
-from .fileio import parse_csv
+from .fileio import parse_csv, parse_csv_2
 from .tree import normalize, equidistant_discretization, equidensity_discretization, Node
+from .regression import Regression
 
 
-__version__ = "0.2.0"
+__version__ = "0.3.0"
