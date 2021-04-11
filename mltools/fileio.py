@@ -47,7 +47,7 @@ def parse_csv_2(file_path, label_index=None, headers=False):
     """
     raw_data = genfromtxt(file_path, delimiter=",", skip_header=1 if headers else 0)
 
-    if label_index:
+    if type(label_index) == int:
         if label_index == 0:
             return raw_data[:, 1:], array([raw_data[:, 0]])
         elif label_index == -1:

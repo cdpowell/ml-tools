@@ -1,4 +1,4 @@
-from numpy import array, c_, flip, genfromtxt, hsplit, ones, subtract, sum, zeros
+from numpy import sum
 
 
 class Regression(object):
