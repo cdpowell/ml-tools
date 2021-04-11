@@ -4,8 +4,19 @@ Release History
 ===============
 
 
-0.3.0 (2021-04-10)
-~~~~~~~~~~~~~~~~~~
+0.3.1.alpha (2021-04-11)
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+**Improvements**
+
+- Begins to add ``math`` module to ``mltools`` package.
+    - Module contains a number of methods for mathematical operations relevant to machine learning.
+        - Adds ``sigmoid()`` function for calculating the sigmoid of an input value.
+        - Adds ``mean_squared_error()`` function for calculating the error between hypothesis values and the actual value.
+
+
+0.3.0.alpha (2021-04-10)
+~~~~~~~~~~~~~~~~~~~~~~~~
 
 **Improvements**
 

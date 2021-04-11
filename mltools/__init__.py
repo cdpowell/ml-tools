@@ -18,6 +18,7 @@ from .fileio import parse_csv, parse_csv_2
 from .tree import normalize, equidistant_discretization, equidensity_discretization, Node
 from .regression import Regression
 from .neuralnetwork import NeuralNetwork
+from .math import mean_squared_error, sigmoid
 
 
-__version__ = "0.3.0"
+__version__ = "0.3.1.alpha"
