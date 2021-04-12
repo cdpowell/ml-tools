@@ -32,5 +32,5 @@ def sigmoid(input_value, derivative=False):
     """
     if derivative:
         sig = sigmoid(input_value)
-        return sig(1 - sig)
+        return sig * (1 - sig)
     return 1 / (1 + exp(input_value))
