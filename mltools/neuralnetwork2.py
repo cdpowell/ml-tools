@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
+
 """
 from numpy import array, dot
-from numpy.random import uniform
+from random import uniform
 import mltools
 
 
@@ -11,8 +12,9 @@ class NeuralNetwork(object):
     """Feed-Forward Neural Network model class object.
     """
 
-    def __init__(self, X, Y, alpha=0.1, weight_range=(-1, 1), bias_range=(-1, 1)):
+    def __init__(self, X, Y, alpha=0.001, weight_range=(-1, 1), bias_range=(-1, 1)):
         """Initializer for Neural Network model class.
+
         """
         self.X = X
         self.Y = Y
@@ -20,25 +22,25 @@ class NeuralNetwork(object):
 
         # initialize weight and bias matrices
         # for now, defaults to a neural network based on nmist dataset; with 784 input nodes, 128 first-layer,
-        # hidden-layer nodes, 64 second-layer, 10 hidden-layer nodes, and 1 output node.
+        # hidden-layer nodes, 64 second-layer, hidden-layer nodes, and 10 output nodes.
         self.weights = dict()
-        # update to use uniform method for creating ndarrays
-        self.weights["layer_1"] = uniform(*weight_range, size=(784, 128))
-        self.weights["layer_2"] = uniform(*weight_range, size=(128, 64))
-        self.weights["layer_3"] = uniform(*weight_range, size=(64, 10))
-        self.weights["layer_4"] = uniform(*weight_range, size=(10, 1))  # output layer
+        self.weights["layer_1"] = array([[uniform(*weight_range) for x in range(784)] for y in range(128)])
+        self.weights["layer_2"] = array([[uniform(*weight_range) for x in range(128)] for y in range(64)])
+        self.weights["layer_3"] = array([[uniform(*weight_range) for x in range(64)] for y in range(10)])
+        # self.weights["layer_4"] = array([[uniform(*weight_range) for x in range(10)] for y in range(1)])
 
         self.bias = dict()
-        # creates (x, 1) sized arrays.
-        self.bias["layer_1"] = uniform(*bias_range, size=(self.weights["layer_1"].shape[1], 1))
-        self.bias["layer_2"] = uniform(*bias_range, size=(self.weights["layer_2"].shape[1], 1))
-        self.bias["layer_3"] = uniform(*bias_range, size=(self.weights["layer_3"].shape[1], 1))
-        self.bias["layer_4"] = uniform(*bias_range, size=(self.weights["layer_4"].shape[1], 1))  # output layer
+        self.bias["layer_1"] = array([[uniform(*bias_range)] for x in range(self.weights["layer_1"].shape[0])])
+        self.bias["layer_2"] = array([[uniform(*bias_range)] for x in range(self.weights["layer_2"].shape[0])])
+        self.bias["layer_3"] = array([[uniform(*bias_range)] for x in range(self.weights["layer_3"].shape[0])])
+        # self.bias["layer_4"] = array([[uniform(*bias_range)] for x in range(self.weights["layer_3"].shape[0])])
 
     def _calculate(self, input_value):
         """Method for predicting class label from trained model.
+
         in = W dot x
         a = g(in)
+
         :param input_value:
         :type input_value: :py:class:`~numpy.ndarray`
         """
@@ -56,6 +58,7 @@ class NeuralNetwork(object):
 
     def predict(self, input_value):
         """Method for predicting class label from trained model.
+
         :param input_value:
         :type input_value: :py:class:`~numpy.ndarray`
         """
@@ -63,13 +66,18 @@ class NeuralNetwork(object):
 
     def train(self, iterations=25, verbose=False):
         """Method to train Neural Network on a given dataset.
+
         Updates weight values according to:
+
             w.j = w.j + alpha * error * g'(in) * x.j
+
             where:
                 in = w.dot(x) + b
                 g'(in) = g(in)*(1-g(in))
                 error = actual - hypothesis
+
         Updates biases parameters according to:
+
             b = b * alpha * error * g'(in)
         """
         # perform iterative training
@@ -86,19 +94,15 @@ class NeuralNetwork(object):
 
                 # perform bias and weight updates
                 updates = dict()
-
-                # delta = (actual - hypothesis) * g'(in)
                 delta = (self.Y[0][count] - layer_outputs["sig_layer_4"]) * mltools.sigmoid(layer_outputs["layer_4"], True)
                 updates["l4b"] = self.bias["layer_4"] + self.alpha * delta
-                # change to sig_layer_(n-1)
-                updates["l4w"] = self.weights["layer_4"] + self.alpha * layer_outputs["sig_layer_3"] * delta
+                updates["l4w"] = self.weights["layer_4"] + self.alpha * layer_outputs["sig_layer_4"] * delta
 
-                # delta = self.weights["layer_4"].dot(delta) * mltools.sigmoid(layer_outputs["layer_3"], True)
-                delta = delta.dot(self.weights["layer_4"]) * mltools.sigmoid(layer_outputs["layer_3"], True)
+                delta = self.weights["layer_4"].dot(delta) * mltools.sigmoid(layer_outputs["layer_3"], True)
                 updates["l3b"] = self.bias["layer_3"] + self.alpha * delta
-                updates["l3w"] = self.weights["layer_3"] + self.alpha * delta.dot(layer_outputs["sig_layer_3"])
+                updates["l3w"] = self.weights["layer_3"] + self.alpha * layer_outputs["sig_layer_3"] * delta
 
-                delta = delta.dot(self.weights["layer_3"]) * mltools.sigmoid(layer_outputs["layer_2"], True).T
+                delta = self.weights["layer_3"].T.dot(delta) * mltools.sigmoid(layer_outputs["layer_2"], True)
                 updates["l2b"] = self.bias["layer_2"] + self.alpha * delta
                 updates["l2w"] = self.weights["layer_2"] + self.alpha * layer_outputs["sig_layer_2"] * delta
 
